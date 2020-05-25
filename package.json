@@ -16,9 +16,9 @@
     "electron-updater": "^4.0.6"
   },
   "build": {
-    "appId": "com.github.marcodebo.electronupdaterexample",
+    "appId": "com.github.Marcodebo.electronupdaterexample",
     "mac": {
-      "category": "it.marcodebo.electronupdaterexample",
+      "category": "it.Marcodebo.electronupdaterexample",
       "target": [
         "zip",
         "dmg"
