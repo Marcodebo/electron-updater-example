@@ -1,10 +1,11 @@
 {
   "name": "electron-updater-example",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "main.js",
   "description": "electron-updater example project",
   "author": "marco Debo",
   "scripts": {
+    "start" : "electron .",
     "publish": "build -p always"
   },
   "devDependencies": {
