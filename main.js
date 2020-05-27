@@ -65,7 +65,14 @@ function createDefaultWindow() {
     win = null;
   });
   win.loadURL(`file://${__dirname}/version.html#v${app.getVersion()}`);
-
+  autoUpdater.checkForUpdates().then(function(res){
+    sendStatusToWindow('CheckFor Updates - ' + JSON.stringify(res));
+  });
+  setInterval(function(){
+    autoUpdater.checkForUpdates().then(function(res){
+      sendStatusToWindow('CheckFor Updates - ' + JSON.stringify(res));
+    });
+  }, 60000);
   return win;
 }
 autoUpdater.on('checking-for-update', () => {
