@@ -59,20 +59,20 @@ function sendStatusToWindow(text) {
   win.webContents.send('message', text);
 }
 function createDefaultWindow() {
-  win = new BrowserWindow();
+  win = new BrowserWindow({
+    webPreferences : {
+      nodeIntegration: true
+    }
+  });
   win.webContents.openDevTools();
   win.on('closed', () => {
     win = null;
   });
   win.loadURL(`file://${__dirname}/version.html#v${app.getVersion()}`);
-  autoUpdater.checkForUpdates().then(function(res){
-    sendStatusToWindow('CheckFor Updates - ' + JSON.stringify(res));
-  });
   setInterval(function(){
-    autoUpdater.checkForUpdates().then(function(res){
-      sendStatusToWindow('CheckFor Updates - ' + JSON.stringify(res));
-    });
-  }, 60000);
+    sendStatusToWindow('controllo Nuovi Update');
+    autoUpdater.checkForUpdates();
+  },3000);
   return win;
 }
 autoUpdater.on('checking-for-update', () => {
@@ -95,9 +95,7 @@ autoUpdater.on('download-progress', (progressObj) => {
 })
 autoUpdater.on('update-downloaded', (info) => {
   sendStatusToWindow('Update downloaded');
-  setTimeout(function(){
-    autoUpdater.quitAndInstall();
-  },5000);
+  autoUpdater.quitAndInstall();
 });
 app.on('ready', function() {
   // Create the Menu
@@ -109,3 +107,4 @@ app.on('ready', function() {
 app.on('window-all-closed', () => {
   app.quit();
 });
+
