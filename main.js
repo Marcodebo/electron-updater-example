@@ -53,7 +53,7 @@ if (process.platform === 'darwin') {
 // that updates are working.
 //-------------------------------------------------------------------
 let win;
-
+let bool_update = false;
 function sendStatusToWindow(text) {
   log.info(text);
   win.webContents.send('message', text);
@@ -70,15 +70,18 @@ function createDefaultWindow() {
   });
   win.loadURL(`file://${__dirname}/version.html#v${app.getVersion()}`);
   setInterval(function(){
-    sendStatusToWindow('controllo Nuovi Update');
-    autoUpdater.checkForUpdates();
-  },3000);
+    if(!bool_update){
+      sendStatusToWindow('controllo Nuovi Update');
+      autoUpdater.checkForUpdatesAndNotify();
+    }
+  },10000);
   return win;
 }
 autoUpdater.on('checking-for-update', () => {
   sendStatusToWindow('Checking for update...');
 })
 autoUpdater.on('update-available', (info) => {
+  bool_update = true;
   sendStatusToWindow('Update available.');
 })
 autoUpdater.on('update-not-available', (info) => {
@@ -104,6 +107,7 @@ app.on('ready', function() {
 
   createDefaultWindow();
 });
+
 app.on('window-all-closed', () => {
   app.quit();
 });
